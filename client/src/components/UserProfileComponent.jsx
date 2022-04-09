@@ -1,8 +1,55 @@
-import React from "react";
+import React, { useState } from "react";
 import user from "../img/user.jpg";
 import { MdModeEditOutline } from "react-icons/md";
+import { UserState } from "../context.js/UserContext";
+import axios from "axios";
 
 const UserProfileComponent = () => {
+  const { user, setUser } = UserState();
+  const [file, setFile] = useState(null);
+  const [username, setUsername] = useState(user.username);
+  const [email, setEmail] = useState(user.email);
+  const [password, setPassword] = useState(user.password);
+  const imageFolder = "http://localhost:5000/images/";
+
+  console.log(user);
+  const handleSubmit = async (e) => {
+    if (username === "" || email === "" || password === "") {
+      console.error("Please input all the fields");
+    } else {
+      e.preventDefault();
+      const updatedUser = {
+        userId: user._id,
+        username,
+        email,
+        password,
+      };
+
+      if (file) {
+        const data = new FormData();
+        const filename = Date.now() + file.name;
+        data.append("name", filename);
+        data.append("file", file);
+        updatedUser.profilePic = filename;
+        try {
+          await axios.post("/upload", data);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      try {
+        console.log(user);
+        console.log(updatedUser);
+        const { data } = await axios.put(`/user/${user._id}`, updatedUser);
+        console.log(data);
+        setUser(data);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
+  console.log(user);
+
   return (
     <div className="w-[70%] mr-8">
       <span className="text-4xl font-semibold float-left tracking-wider uppercase pb-2 border-b-2 border-tertiary ">
@@ -11,7 +58,9 @@ const UserProfileComponent = () => {
       <div className="flex float-left w-full items-center justify-center flex-col mt-8">
         <div className="">
           <img
-            src={user}
+            src={
+              file ? URL.createObjectURL(file) : imageFolder + user.profilePic
+            }
             alt="Profile Pic"
             className="h-[200px] relative w-[200px] border-2 border-tertiary p-[2px] rounded-full object-cover mb-8"
           />
@@ -22,8 +71,13 @@ const UserProfileComponent = () => {
             <MdModeEditOutline size={23} className="" />
           </div>
         </label>
-        <input type="file" id="fileInput" className="hidden" />
-        <form className="text-left w-[65%] space-y-4">
+        <input
+          type="file"
+          id="fileInput"
+          onChange={(e) => setFile(e.target.files[0])}
+          className="hidden"
+        />
+        <form className="text-left w-[65%] space-y-4" onSubmit={handleSubmit}>
           <div className="space-y-1">
             <label className="text-lg" htmlFor="">
               Username
@@ -31,7 +85,9 @@ const UserProfileComponent = () => {
             <br />
             <input
               type="text"
-              placeholder="John"
+              value={username}
+              // placeholder={user.username}
+              onChange={(e) => setUsername(e.target.value)}
               className="w-full outline-none bg-gray-200 placeholder-gray-500 text-gray-800 px-4 py-2 rounded-md"
             />
           </div>
@@ -42,7 +98,9 @@ const UserProfileComponent = () => {
             <br />
             <input
               type="email"
-              placeholder="yourmail@gmail.com"
+              value={email}
+              // placeholder={user.email}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full outline-none bg-gray-200 placeholder-gray-500 text-gray-800 px-4 py-2 rounded-md"
             />
           </div>
@@ -53,14 +111,17 @@ const UserProfileComponent = () => {
             <br />
             <input
               type="text"
-              placeholder="Iloveblogging"
+              onChange={(e) => setPassword(e.target.value)}
               className="w-full outline-none bg-gray-200 placeholder-gray-500 text-gray-800 px-4 py-2 rounded-md"
             />
           </div>
+          <button
+            type="submit"
+            className="mt-12 bg-tertiary text-white px-4 py-2 rounded-md font-semibold"
+          >
+            Update
+          </button>
         </form>
-        <button className="mt-12 bg-tertiary text-white px-4 py-2 rounded-md font-semibold">
-          Update
-        </button>
       </div>
     </div>
   );

@@ -13,9 +13,10 @@ import {
   Link,
   Routes,
 } from "react-router-dom";
+import { UserState } from "./context.js/UserContext";
 
 function App() {
-  const user = true;
+  const { user } = UserState();
   return (
     <div className="App">
       <Router>
@@ -30,7 +31,7 @@ function App() {
             element={!user ? <Register /> : <UserProfile />}
           />
           <Route
-            path="/blog/:id"
+            path="/post/:id"
             element={!user ? <Register /> : <SingleBlog />}
           />
         </Routes>
