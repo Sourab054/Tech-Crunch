@@ -1,11 +1,13 @@
 import React, { useRef } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { UserState } from "../context.js/UserContext";
 
 const Register = () => {
   const usernameRef = useRef(null);
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
+  const { notify } = UserState();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,10 +17,12 @@ const Register = () => {
         email: emailRef.current.value,
         password: passwordRef.current.value,
       });
+      notify("success", "Sign up successful");
       data && window.location.replace("/login");
       console.log(data);
     } catch (error) {
       console.log(error);
+      notify("error", "Sign up failed");
     }
   };
 

@@ -14,7 +14,7 @@ const SingleBlogComponent = () => {
   const [update, setUpdate] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const { user } = UserState();
+  const { user, notify } = UserState();
   const path = location.pathname.split("/")[2];
   const imageFolder = "http://localhost:5000/images/";
 
@@ -37,8 +37,10 @@ const SingleBlogComponent = () => {
         desc,
       });
       setUpdate(false);
+      notify("success", "Post updated successfully");
     } catch (error) {
       console.log(error);
+      notify("error", "Something went wrong!");
     }
   };
 
@@ -49,6 +51,7 @@ const SingleBlogComponent = () => {
           username: user.username,
         },
       });
+      notify("success", "Post deleted successfully");
       navigate("/", { replace: true });
     } catch (error) {
       console.log(error);

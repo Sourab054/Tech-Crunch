@@ -6,7 +6,7 @@ import { UserState } from "../context.js/UserContext";
 const Login = () => {
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
-  const { user, setUser } = UserState();
+  const { user, setUser, notify } = UserState();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -18,9 +18,11 @@ const Login = () => {
       });
       console.log(data);
       navigate("/", { replace: true });
+      notify("success", "Login Successful");
       setUser(data);
     } catch (error) {
       console.log(error);
+      notify("error", "Login Failed");
     }
   };
 

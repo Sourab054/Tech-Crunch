@@ -5,7 +5,7 @@ import { UserState } from "../context.js/UserContext";
 import axios from "axios";
 
 const UserProfileComponent = () => {
-  const { user, setUser } = UserState();
+  const { user, setUser, notify } = UserState();
   const [file, setFile] = useState(null);
   const [username, setUsername] = useState(user.username);
   const [email, setEmail] = useState(user.email);
@@ -33,8 +33,10 @@ const UserProfileComponent = () => {
         updatedUser.profilePic = filename;
         try {
           await axios.post("/upload", data);
+          notify("success", "Profile updated successfully");
         } catch (error) {
           console.log(error);
+          notify("error", "Something went wrong!");
         }
       }
       try {

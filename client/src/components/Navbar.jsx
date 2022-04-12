@@ -12,12 +12,13 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { UserState } from "../context.js/UserContext";
 
 const Navbar = () => {
-  const { user, setUser } = UserState();
+  const { user, setUser, notify } = UserState();
   const navigate = useNavigate();
   const imageFolder = "http://localhost:5000/images/";
 
   const handleLogout = () => {
     setUser(null);
+    notify("success", "Logged out successfully");
     console.log(user);
   };
 

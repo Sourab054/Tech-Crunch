@@ -10,7 +10,7 @@ const CreateBlog = () => {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [file, setFile] = useState(null);
-  const { user } = UserState();
+  const { user, notify } = UserState();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -35,6 +35,7 @@ const CreateBlog = () => {
     try {
       const res = await axios.post("/post", newPost);
       console.log(res);
+      notify("success", "Post created successfully");
       navigate("/post/" + res.data._id, { replace: true });
     } catch (err) {}
   };
