@@ -1,6 +1,4 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import React from "react";
 import Banner from "../components/Banner";
 import Posts from "../components/Posts";
 import Sidebar from "../components/Sidebar";

@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { GrAddCircle } from "react-icons/gr";
 import TextareaAutosize from "react-textarea-autosize";
-import image from "../img/banner1.jpg";
 import { UserState } from "../context.js/UserContext";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { axiosInstance } from "../config";
 
 const CreateBlog = () => {
   const [title, setTitle] = useState("");
@@ -27,13 +26,13 @@ const CreateBlog = () => {
       data.append("file", file);
       newPost.coverPhoto = filename;
       try {
-        await axios.post("/upload", data);
+        await axiosInstance.post("/upload", data);
       } catch (error) {
         console.log(error);
       }
     }
     try {
-      const res = await axios.post("/post", newPost);
+      const res = await axiosInstance.post("/post", newPost);
       console.log(res);
       notify("success", "Post created successfully");
       navigate("/post/" + res.data._id, { replace: true });

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import PostCard from "./PostCard";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
+import { axiosInstance } from "../config";
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
@@ -9,7 +10,7 @@ const Posts = () => {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const { data } = await axios.get("/post" + search);
+      const { data } = await axiosInstance.get("/post" + search);
       setPosts(data);
       console.log(data);
     };

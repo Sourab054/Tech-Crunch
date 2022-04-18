@@ -6,6 +6,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { UserState } from "../context.js/UserContext";
 import TextareaAutosize from "react-textarea-autosize";
+import { axiosInstance } from "../config";
 
 const SingleBlogComponent = () => {
   const [title, setTitle] = useState("");
@@ -20,7 +21,7 @@ const SingleBlogComponent = () => {
 
   useEffect(() => {
     const getPost = async () => {
-      const { data } = await axios.get("/post/" + path);
+      const { data } = await axiosInstance.get("/post/" + path);
       setPost(data);
       setTitle(data.title);
       setDesc(data.desc);
@@ -31,7 +32,7 @@ const SingleBlogComponent = () => {
 
   const handleUpdate = async () => {
     try {
-      await axios.put(`/post/` + post._id, {
+      await axiosInstance.put(`/post/` + post._id, {
         username: user.username,
         title,
         desc,
@@ -46,7 +47,7 @@ const SingleBlogComponent = () => {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`/post/` + post._id, {
+      await axiosInstance.delete(`/post/` + post._id, {
         data: {
           username: user.username,
         },

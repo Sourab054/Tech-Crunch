@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import user from "../img/user.jpg";
 import { MdModeEditOutline } from "react-icons/md";
 import { UserState } from "../context.js/UserContext";
-import axios from "axios";
+import { axiosInstance } from "../config";
 
 const UserProfileComponent = () => {
   const { user, setUser, notify } = UserState();
@@ -32,7 +31,7 @@ const UserProfileComponent = () => {
         data.append("file", file);
         updatedUser.profilePic = filename;
         try {
-          await axios.post("/upload", data);
+          await axiosInstance.post("/upload", data);
           notify("success", "Profile updated successfully");
         } catch (error) {
           console.log(error);
@@ -42,7 +41,10 @@ const UserProfileComponent = () => {
       try {
         console.log(user);
         console.log(updatedUser);
-        const { data } = await axios.put(`/user/${user._id}`, updatedUser);
+        const { data } = await axiosInstance.put(
+          `/user/${user._id}`,
+          updatedUser
+        );
         console.log(data);
         setUser(data);
       } catch (err) {

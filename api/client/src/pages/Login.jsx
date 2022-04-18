@@ -1,28 +1,29 @@
-import React, { useRef } from "react";
-import { Link } from "react-router-dom";
 import axios from "axios";
+import React, { useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { axiosInstance } from "../config";
 import { UserState } from "../context.js/UserContext";
 
-const Register = () => {
+const Login = () => {
   const usernameRef = useRef(null);
-  const emailRef = useRef(null);
   const passwordRef = useRef(null);
-  const { notify } = UserState();
+  const { setUser, notify } = UserState();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post("/auth/register", {
+      const { data } = await axiosInstance.post("/auth/login", {
         username: usernameRef.current.value,
-        email: emailRef.current.value,
         password: passwordRef.current.value,
       });
-      notify("success", "Sign up successful");
-      data && window.location.replace("/login");
       console.log(data);
+      navigate("/", { replace: true });
+      notify("success", "Login Successful");
+      setUser(data);
     } catch (error) {
       console.log(error);
-      notify("error", "Sign up failed");
+      notify("error", "Login Failed");
     }
   };
 
@@ -40,7 +41,7 @@ const Register = () => {
             </span>
           </span>
         </div>
-        <div className="border-2 border-gray-200 px-4 py-8 bg-white shadow-lg rounded-lg w-[75%] md:w-[40%] lg:w-[30%] mx-auto">
+        <div className="border-2 border-gray-200 px-4 py-8 bg-white shadow-lg rounded-lg w-[75%] md:w-[40%] lg:w-[25%] mx-auto">
           <div className="mb-6">
             <label htmlFor="name" className="float-left text-lg">
               Username
@@ -52,19 +53,6 @@ const Register = () => {
               placeholder=""
               required=""
               ref={usernameRef}
-            />
-          </div>
-          <div className="mb-6">
-            <label htmlFor="email" className="float-left text-lg">
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              className="w-full outline-none bg-gray-200 placeholder-gray-500 text-gray-800 px-4 py-2 mt-2 rounded-md"
-              placeholder=""
-              required=""
-              ref={emailRef}
             />
           </div>
           <div className="mb-6">
@@ -81,12 +69,12 @@ const Register = () => {
           </div>
 
           <button className="bg-tertiary text-white px-4 py-2 rounded-md font-semibold cursor-pointer">
-            Sign Up
+            Login
           </button>
           <div className="text-sm mt-6 ">
-            Already have an account?{" "}
-            <Link to="/login">
-              <b className="hover:underline hover:cursor-pointer ">Sign In</b>{" "}
+            Do you have an account?{" "}
+            <Link to="/register">
+              <b className="hover:underline hover:cursor-pointer ">Sign Up</b>{" "}
             </Link>
           </div>
         </div>
@@ -95,4 +83,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Login;

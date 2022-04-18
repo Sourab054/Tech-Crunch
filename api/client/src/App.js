@@ -6,13 +6,7 @@ import CreateBlog from "./pages/CreateBlog";
 import UserProfile from "./pages/UserProfile";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  Routes,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { UserState } from "./context.js/UserContext";
 
 function App() {
