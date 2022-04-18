@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
-import card from "../img/card.jpg";
+import React from "react";
 import { Link } from "react-router-dom";
 
 const PostCard = ({ post }) => {
-  const imageFolder = "http://localhost:5000/images/";
+  const imageFolder = "https://tech-crunch.herokuapp.com/images/";
   return (
     <div className="flex items-center pt-8 ">
       <div>

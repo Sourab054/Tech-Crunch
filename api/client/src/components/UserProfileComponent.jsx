@@ -9,7 +9,7 @@ const UserProfileComponent = () => {
   const [username, setUsername] = useState(user.username);
   const [email, setEmail] = useState(user.email);
   const [password, setPassword] = useState(user.password);
-  const imageFolder = "http://localhost:5000/images/";
+  const imageFolder = "https://tech-crunch.herokuapp.com/images/";
 
   console.log(user);
   const handleSubmit = async (e) => {

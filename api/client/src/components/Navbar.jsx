@@ -5,7 +5,6 @@ import {
   FaTwitterSquare,
   FaGithubSquare,
   FaUserCircle,
-  FaSearch,
 } from "react-icons/fa";
 import { FiLogIn, FiLogOut } from "react-icons/fi";
 import { Link, NavLink, useNavigate } from "react-router-dom";
@@ -14,7 +13,7 @@ import { UserState } from "../context.js/UserContext";
 const Navbar = () => {
   const { user, setUser, notify } = UserState();
   const navigate = useNavigate();
-  const imageFolder = "http://localhost:5000/images/";
+  const imageFolder = "https://tech-crunch.herokuapp.com/images/";
 
   const handleLogout = () => {
     setUser(null);

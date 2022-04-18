@@ -17,7 +17,7 @@ const SingleBlogComponent = () => {
   const navigate = useNavigate();
   const { user, notify } = UserState();
   const path = location.pathname.split("/")[2];
-  const imageFolder = "http://localhost:5000/images/";
+  const imageFolder = "https://tech-crunch.herokuapp.com/images/";
 
   useEffect(() => {
     const getPost = async () => {
